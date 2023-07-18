@@ -5,10 +5,6 @@ import json
 
 class PysonWeb:
         def __init__(self, ip, username, password, port=3363):
-            try:
-                requests.get('http://' + ip + ':' + str(port))
-            except requests.exceptions.ConnectionError:
-                raise Exception("Unable to establish new connection to server.")
             self.ip = ip
             self.username = username
             self.password = password
@@ -56,5 +52,8 @@ class PysonWeb:
             request_post = requests.post(host, data={'username': self.username, 'password': self.password})
             return json.loads(request_post.text)
 
-
+        def delete(self, tbl_name, search_query):
+            host = 'http://' + self.ip + ':' + self.port + '/delete'
+            request_post = requests.post(host, data={'tbl_name': tbl_name, 'search_query': str(search_query), 'username': self.username, 'password': self.password})
+            return json.loads(request_post.text)
 
